@@ -14,9 +14,33 @@
         // generate sunrise sub menu page
         add_submenu_page('jahangir_sunrise', 'Sunrise Theme Options', 'Settings', 'manage_options', 'jahangir_sunrise', 'sunrise_theme_create_page');
         add_submenu_page('jahangir_sunrise', 'Sunrise Theme Options  CSS', 'Custom CSS', 'manage_options', 'jahangir_sunrise_css', 'sunrise_theme_settings_page');
+        
+        // activate custom settings
+        add_action('admin_init', 'sunrise_custom_settings');
+    
     }
 
     add_action('admin_menu', 'sunrise_add_admin_page');
+
+    function sunrise_custom_settings()
+    {
+        register_setting('sunrise-settings-group', 'first_name');
+        add_settings_section('sunrise-sidebar-options', 'Sidebar Options', 'sunrise_sidebar_options', 'jahangir_sunrise');
+    
+        add_settings_field('sidebar-name', 'Frist name', 'sunrise_sidebar_name', 'jahangir_sunrise', 'sunrise-sidebar-options');
+    
+    }
+
+    function sunrise_sidebar_options()
+    {
+        echo 'Customize your sidebar';
+    }
+
+    function sunrise_sidebar_name()
+    {
+        $firstName = esc_attr( get_option('first_name') );
+        echo '<input type="text" name="first_name" value="'.$firstName.'" placeholder="First name" />';
+    }
 
     function sunrise_theme_create_page()
     {
